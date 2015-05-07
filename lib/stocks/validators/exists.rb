@@ -6,9 +6,13 @@ require 'active_model/validator'
 module Stocks 
   module Validators
     class Exists < ActiveModel::Validator
+      ERROR_MESSAGE = '%s is not a valid ticker symbol.'
+
       def validate(record)
-        if (!Stocks.exists?(record.symbol))
-          record.errors[:symbol] << "'#{record.symbol}' is not a valid symbol."
+        field = options[:symbol_field] || :symbol
+        symbol = record.send(field)
+        if (!Stocks.exists?(symbol))
+          record.errors[field] << ERROR_MESSAGE % symbol
         end
       end
     end
