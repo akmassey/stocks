@@ -4,7 +4,7 @@
 module Stocks
   # An error raised when data retrieval fails
   class RetrievalError < ArgumentError
-    def initialize(symbol) # :nodoc:
+    def initialize(symbol)
       super(self.class.message(symbol))
     end
 
@@ -25,7 +25,7 @@ module Stocks
 
   # An error raised when an unsupported value is provided
   class UnsupportedError < ArgumentError
-    def initialize(provided, supported) # :nodoc:
+    def initialize(provided, supported)
       super(self.class.message(provided, supported))
     end
 

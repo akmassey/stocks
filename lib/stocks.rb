@@ -29,7 +29,6 @@ module Stocks
   # - +symbol+ The symbol to evaluate for existence
   # ===== *Raises*
   # - +RetrievalError+ If the provided symbol does not exist
-  # Whether or not the provided symbol exists
   def self.exists!(symbol)
     raise RetrievalError.new(symbol) if !Stocks.exists?(symbol)
   end

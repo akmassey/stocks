@@ -26,7 +26,7 @@ module Stocks
         ERROR_MESSAGE % symbol
       end
 
-      # Validates that a record have a valid symbol.
+      # Validates that a record has a valid symbol.
       #
       # ===== *Args*
       # - +record+ The record to validate
