@@ -36,7 +36,7 @@ describe Exists do
         expect(position.errors).to_not be_empty
         expect(position.errors.size).to eq(1)
         expect(position.errors[FIELD]).to_not be_nil
-        expect(position.errors[FIELD].first).to eq(Exists.error_message(symbol))
+        expect(position.errors[FIELD].first).to eq(Exists.message(symbol))
       end
     end
 

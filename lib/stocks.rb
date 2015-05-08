@@ -2,6 +2,7 @@
 # License::   MIT
 
 # Require external libraries
+require 'lrucache'
 require 'yahoofinance'
 
 # Require all Stocks related files
@@ -9,54 +10,53 @@ require 'stocks/errors'
 require 'stocks/historical'
 require 'stocks/validators/exists'
 
-# TODO test this module
-# TODO add a caching layer with 1-min TTL
+# Provides an interface to do real-time analysis of stocks.
 module Stocks
-  COMMISSION_RANGE = {greater_than_or_equal_to: 0}
-  EPSILON = 0.00001
-  NA = 'N/A'
-  PRICE_RANGE = {greater_than: 0}
-  PRICE_SCALE = 5
-  PERCENTAGE_RANGE =  {greater_than: 0, less_than: 100}
-  QUANTITY_RANGE = {greater_than: 0}
-
-  # TODO move to another lib module
-  def self.equal?(value, other)
-    (value-other).abs < EPSILON
-  end
-
   # Determines whether or not the provided symbol exists.
   #
-  # * *Args*:
-  #   - +symbol+ The symbol to evaluate
-  # * *Returns*:
-  #   - Whether or not the provided symbol exists
+  # ===== *Args*
+  # - +symbol+ The symbol to evaluate for existence
+  # ===== *Returns*
+  # Whether or not the provided symbol exists
   def self.exists?(symbol)
-    quote(symbol.upcase, [:date])[:date] != NA
+    symbol.upcase!
+    EXISTS_CACHE.fetch(symbol) { !quote(symbol, [:date])[:date].nil? }
+  end
+
+  # Raises an exception if the provided symbol does not exist.
+  #
+  # ===== *Args*
+  # - +symbol+ The symbol to evaluate for existence
+  # ===== *Raises*
+  # - +RetrievalError+ If the provided symbol does not exist
+  # Whether or not the provided symbol exists
+  def self.exists!(symbol)
+    raise RetrievalError.new(symbol) if !Stocks.exists?(symbol)
   end
 
   # Fetches the last trade for the provided symbol.
   #
-  # * *Args*:
-  #   - +symbol+ The symbol to evaluate
-  # * *Returns*:
-  #   - The last trade for the provided symbol
-  # * *Raises*:
-  #   - +RetrievalError+ If the provided symbol does not exist
+  # ===== *Args*
+  # - +symbol+ The symbol to evaluate
+  # ===== *Returns*
+  # The last trade for the provided symbol
+  # ===== *Raises*
+  # - +RetrievalError+ If the provided symbol does not exist
   def self.last_trade(symbol)
     last_trade = quote(symbol)[:lastTrade]
-    raise RetrievalError.new("Could not retrieve last trade for '#{symbol}'") if last_trade == 0 or last_trade == NA
+    raise RetrievalError.new(symbol) if last_trade.nil?
     last_trade
   end
 
   private
 
+  EXISTS_CACHE = LRUCache.new(max_size: 500, ttl: 1.month) # :nodoc:
+
   def self.quote(symbol, fields = [:lastTrade])
     data = {}
-    # TODO use the fields map to decide which method to use
     standard_quote = YahooFinance::get_standard_quotes(symbol)[symbol]
     fields.each do |field|
-      data[field] = standard_quote.send(field) rescue NA
+      data[field] = standard_quote.send(field) rescue nil
     end
     data
   end

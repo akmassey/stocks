@@ -17,3 +17,7 @@ ActiveRecord::Base.establish_connection(
   timeout: 5000
 )
 
+def expect_retrieval_error(symbol)
+  expect { yield if block_given? }.to raise_error(RetrievalError, RetrievalError.message(symbol))
+end
+

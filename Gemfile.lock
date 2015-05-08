@@ -4,11 +4,13 @@ PATH
     stocks (0.0.1)
       activerecord (>= 4)
       activesupport (>= 4)
+      lrucache (~> 0.1)
       yahoofinance (~> 1.2)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    PriorityQueue (0.1.2)
     activemodel (4.2.1)
       activesupport (= 4.2.1)
       builder (~> 3.1)
@@ -27,6 +29,8 @@ GEM
     diff-lcs (1.2.5)
     i18n (0.7.0)
     json (1.8.2)
+    lrucache (0.1.4)
+      PriorityQueue (~> 0.1.2)
     minitest (5.6.1)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
