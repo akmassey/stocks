@@ -1,5 +1,6 @@
-stocks
+Stocks
 ========
+[![Gem Version](https://badge.fury.io/rb/stocks.svg)](http://badge.fury.io/rb/stocks)
 
-A ruby financial analysis library
+A financial analysis library written in Ruby
 
