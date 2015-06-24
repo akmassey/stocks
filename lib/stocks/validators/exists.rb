@@ -1,6 +1,8 @@
 # Author::    Matt Fornaciari (mailto:mattforni@gmail.com)
 # License::   MIT
 
+require 'active_model'
+
 module Stocks
   module Validators
     # An ActiveRecord validator which validates that an attribute on a model is a

@@ -32,7 +32,7 @@ describe Exists do
         position = Position.new({FIELD => symbol})
 
         # Assert
-        expect(position.save).to be_false
+        expect(position.save).to be_falsey
         expect(position.errors).to_not be_empty
         expect(position.errors.size).to eq(1)
         expect(position.errors[FIELD]).to_not be_nil
@@ -50,7 +50,7 @@ describe Exists do
         position = Position.new({FIELD => symbol})
 
         # Assert
-        expect(position.save).to be_true
+        expect(position.save).to be_truthy
         expect(position.errors).to be_empty
       end
     end

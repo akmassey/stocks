@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'stocks'
-  s.version     = '0.0.2'
+  s.version     = '1.0.0'
   s.date        = Date.today
   s.summary     = "Provides a library for analyzing stocks"
   s.description = "A programmatic approach to performing various financial analysis"

@@ -12,7 +12,7 @@ describe Stocks do
         allow(Stocks).to receive(:quote).and_return({date: nil})
 
         # Act / Assert
-        expect(Stocks.exists?('invalid')).to be_false
+        expect(Stocks.exists?('invalid')).to be_falsey
       end
     end
 
@@ -22,7 +22,7 @@ describe Stocks do
         allow(Stocks).to receive(:quote).and_return({date: Date.today})
 
         # Act / Assert
-        expect(Stocks.exists?('abc')).to be_true
+        expect(Stocks.exists?('abc')).to be_truthy
       end
     end
 
@@ -65,28 +65,5 @@ describe Stocks do
     end
   end
 
-  describe '::last_trade' do
-    context 'when symbol is not valid' do
-      it 'raises a RetrievalError' do
-        # Arrange
-        symbol = 'invalid'
-        allow(Stocks).to receive(:quote).and_return({lastTrade: nil})
-
-        # Act / Assert
-        expect_retrieval_error(symbol) { Stocks.last_trade(symbol) }
-      end
-    end
-
-    context 'when symbol is valid' do
-      it 'returns a value greater than 0' do
-        # Arrange
-        last_trade = 10
-        allow(Stocks).to receive(:quote).and_return({lastTrade: last_trade})
-
-        # Act / Assert
-        expect(Stocks.last_trade('abc')).to eq(last_trade)
-      end       
-    end
-  end
 end
 

@@ -1,3 +1,7 @@
 Version 0.0.1: Initial release of stocks.
 Version 0.0.2: Cleaned everything up and added docs, tests and a cache.
+Version 0.0.3: Added the ability to query for many more statistics.
+Version 0.0.4: Moved the Quote class into the Stocks namespace.
+Version 1.0.0: Moved the 'quote' functionality into the Quote class under the name 'get'
+               Quote.get(...) now can take a single symbol or an array of symbols
 

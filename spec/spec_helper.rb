@@ -21,3 +21,7 @@ def expect_retrieval_error(symbol)
   expect { yield if block_given? }.to raise_error(RetrievalError, RetrievalError.message(symbol))
 end
 
+def expect_unsupported_error(provided, supported)
+  expect { yield if block_given? }.to raise_error(UnsupportedError, UnsupportedError.message(provided, supported))
+end
+
