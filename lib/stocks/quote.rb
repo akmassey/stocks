@@ -2,7 +2,7 @@
 # License::   MIT
 
 module Stocks
-  # Reprsents an instance of a stock quote. 
+  # Reprsents an instance of a stock quote.
   class Quote < Hash
     # Mapping from base_quote type to YahooFinance method of retrieval
     # (options: :extended, :standard)
@@ -28,6 +28,7 @@ module Stocks
 
       quotes = YahooFinance.send(Quote::TYPES[type], symbols)
       quotes.each_pair { |symbol, quote| quotes[symbol] = Quote.new(quote) }
+
       quotes
     end
 
@@ -37,17 +38,15 @@ module Stocks
       get_fields.each { |field| self[field] = base_quote.send(field) } if valid?
     end
 
-    # Determines whether or not the quote is valid. 
+    # Determines whether or not the quote is valid.
     #
     # ===== *Returns*
-    # Whether or not the quote is valid 
+    # Whether or not the quote is valid
     def valid?
       @base_quote.name != NOT_AVAILABLE
     end
 
     private
-
-    NOT_AVAILABLE = 'N/A' # :nodoc:
 
     attr_accessor :base_quote
 

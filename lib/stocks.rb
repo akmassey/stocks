@@ -13,6 +13,8 @@ require 'stocks/validators/exists'
 
 # Provides an interface to do real-time analysis of stocks.
 module Stocks
+  NOT_AVAILABLE = 'N/A' # :nodoc:
+
   # Determines whether or not the provided symbol exists.
   #
   # ===== *Args*
@@ -21,7 +23,7 @@ module Stocks
   # Whether or not the provided symbol exists
   def self.exists?(symbol)
     symbol.upcase!
-    EXISTS_CACHE.fetch(symbol) { !quote(symbol, [:date])[:date].nil? }
+    EXISTS_CACHE.fetch(symbol) { !Quote.get(symbol)[symbol][:date].nil? }
   end
 
   # Raises an exception if the provided symbol does not exist.
